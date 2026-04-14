@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TravelTech Solutions</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header>
+    <div class="header-inner">
+      <h1>✈️ TravelTech Solutions</h1>
+      <p>Descobreix el món. Planifica els teus viatges.</p>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- SEARCH SECTION -->
+    <section class="card" id="section-search">
+      <h2>🔍 Cerca un país</h2>
+      <div class="search-bar">
+        <input type="text" id="searchInput" placeholder="Escriu el nom d'un país..." />
+        <button id="searchBtn">Cerca</button>
+      </div>
+      <div id="searchResult"></div>
+    </section>
+
+    <!-- FAVORITES SECTION -->
+    <section class="card" id="section-favorites">
+      <h2>⭐ Favorits</h2>
+      <div id="favoritesList"><p class="empty">No hi ha favorits encara.</p></div>
+    </section>
+
+    <!-- WISHLIST SECTION -->
+    <section class="card" id="section-wishlist">
+      <h2>🗺️ Wishlist — Pendents de visitar</h2>
+      <div id="wishlistItems"><p class="empty">La wishlist és buida.</p></div>
+    </section>
+
+    <!-- HISTORY SECTION -->
+    <section class="card" id="section-history">
+      <h2>🕘 Historial de cerques</h2>
+      <button id="clearHistoryBtn" class="btn-secondary">Esborrar historial</button>
+      <div id="historyList"><p class="empty">No hi ha cerques recents.</p></div>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>TravelTech Solutions &copy; 2025 — Arquitectura de microserveis multi-cloud</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
