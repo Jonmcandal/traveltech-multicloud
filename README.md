@@ -73,10 +73,10 @@ Obre http://localhost:3000
 
 | Servei       | URL                                         |
 |--------------|---------------------------------------------|
-| Frontend     | https://traveltech-frontend.onrender.com    |
-| Favorites    | https://service-favorites.onrender.com      |
-| Wishlist     | https://service-wishlist.up.railway.app     |
-| History      | https://service-history.fly.dev             |
+| Frontend     | https://traveltech-frontend.onrender.com           |
+| Favorites    | https://service-favorites.onrender.com             |
+| Wishlist     | https://traveltech-multicloud-mq85.vercel.app      |
+| History      | https://traveltech-multicloud-yydf.vercel.app      |
 
 > Actualitzar amb les URLs reals un cop desplegats.
 

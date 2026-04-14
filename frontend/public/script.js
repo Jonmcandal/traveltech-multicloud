@@ -2,8 +2,8 @@
 // Change these URLs after deploying each service to cloud
 const CONFIG = {
   FAVORITES_API: 'https://service-favorites.onrender.com',
-  WISHLIST_API:  'https://service-wishlist.up.railway.app',
-  HISTORY_API:   'https://service-history.fly.dev',
+  WISHLIST_API:  'https://traveltech-multicloud-mq85.vercel.app',
+  HISTORY_API:   'https://traveltech-multicloud-yydf.vercel.app',
   COUNTRIES_API: 'https://restcountries.com/v3.1'
 };
 
