@@ -5,7 +5,7 @@ const path = require('path');
 
 const app = express();
 const PORT = process.env.PORT || 3003;
-const DATA_FILE = path.join(__dirname, 'data.json');
+const DATA_FILE = process.env.VERCEL ? '/tmp/data.json' : path.join(__dirname, 'data.json');
 const MAX_HISTORY = 50;
 
 app.use(cors());
