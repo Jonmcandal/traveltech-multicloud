@@ -24,6 +24,14 @@ jobs:
         run: npm install
         working-directory: service-favorites
 
+      - name: Verificar sintaxi (build)
+        run: npm run build
+        working-directory: service-favorites
+
+      - name: Comprovar qualitat del codi (lint)
+        run: npm run lint
+        working-directory: service-favorites
+
       - name: Executar tests
         run: npm test
         working-directory: service-favorites
@@ -45,6 +53,14 @@ jobs:
         run: npm install
         working-directory: service-wishlist
 
+      - name: Verificar sintaxi (build)
+        run: npm run build
+        working-directory: service-wishlist
+
+      - name: Comprovar qualitat del codi (lint)
+        run: npm run lint
+        working-directory: service-wishlist
+
       - name: Executar tests
         run: npm test
         working-directory: service-wishlist
@@ -64,6 +80,14 @@ jobs:
 
       - name: Instal·lar dependències
         run: npm install
+        working-directory: service-history
+
+      - name: Verificar sintaxi (build)
+        run: npm run build
+        working-directory: service-history
+
+      - name: Comprovar qualitat del codi (lint)
+        run: npm run lint
         working-directory: service-history
 
       - name: Executar tests
