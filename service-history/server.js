@@ -5,7 +5,7 @@ const path = require('path');
 
 const app = express();
 const PORT = process.env.PORT || 3003;
-const DATA_FILE = process.env.VERCEL ? '/tmp/data.json' : path.join(__dirname, 'data.json');
+const DATA_FILE = process.env.DATA_FILE || (process.env.VERCEL ? '/tmp/data.json' : path.join(__dirname, 'data.json'));
 const MAX_HISTORY = 50;
 
 app.use(cors());
@@ -86,6 +86,10 @@ app.get('/health', (req, res) => {
   res.json({ status: 'ok', service: 'history' });
 });
 
-app.listen(PORT, () => {
-  console.log(`History service running on port ${PORT}`);
-});
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`History service running on port ${PORT}`);
+  });
+}
+
+module.exports = app;

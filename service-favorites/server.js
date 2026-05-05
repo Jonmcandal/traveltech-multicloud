@@ -5,7 +5,7 @@ const path = require('path');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
-const DATA_FILE = path.join(__dirname, 'data.json');
+const DATA_FILE = process.env.DATA_FILE || path.join(__dirname, 'data.json');
 
 app.use(cors());
 app.use(express.json());
@@ -63,6 +63,15 @@ app.get('/health', (req, res) => {
   res.json({ status: 'ok', service: 'favorites' });
 });
 
-app.listen(PORT, () => {
-  console.log(`Favorites service running on port ${PORT}`);
+// Version info
+app.get('/version', (req, res) => {
+  res.json({ version: '1.0.0', service: 'favorites' });
 });
+
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`Favorites service running on port ${PORT}`);
+  });
+}
+
+module.exports = app;

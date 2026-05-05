@@ -5,7 +5,7 @@ const path = require('path');
 
 const app = express();
 const PORT = process.env.PORT || 3002;
-const DATA_FILE = process.env.VERCEL ? '/tmp/data.json' : path.join(__dirname, 'data.json');
+const DATA_FILE = process.env.DATA_FILE || (process.env.VERCEL ? '/tmp/data.json' : path.join(__dirname, 'data.json'));
 
 app.use(cors());
 app.use(express.json());
@@ -84,6 +84,10 @@ app.get('/health', (req, res) => {
   res.json({ status: 'ok', service: 'wishlist' });
 });
 
-app.listen(PORT, () => {
-  console.log(`Wishlist service running on port ${PORT}`);
-});
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`Wishlist service running on port ${PORT}`);
+  });
+}
+
+module.exports = app;
