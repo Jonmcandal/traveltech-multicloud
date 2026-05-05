@@ -1,6 +1,54 @@
+# =============================================================
+# WORKFLOW DE CI - TravelTech Multicloud
+# =============================================================
+# Diagrama d'execució:
+#
+#  INICI (push / pull_request a main)
+#       │
+#       ▼
+#  ┌─────────────────────┐
+#  │  Checkout del codi  │
+#  └─────────┬───────────┘
+#            │
+#       ▼
+#  ┌─────────────────────┐
+#  │  Configurar Node.js │
+#  └─────────┬───────────┘
+#            │
+#       ▼
+#  ┌──────────────────────────┐
+#  │  Instal·lar dependències │
+#  └─────────┬────────────────┘
+#            │
+#       ▼
+#  ┌──────────────────────┐
+#  │  Verificar sintaxi   │  ──── ERROR ──► Notificar fallida ──► FI ❌
+#  │    (npm run build)   │
+#  └─────────┬────────────┘
+#            │ OK
+#       ▼
+#  ┌──────────────────────┐
+#  │  Qualitat del codi   │  ──── ERROR ──► Notificar fallida ──► FI ❌
+#  │    (npm run lint)    │
+#  └─────────┬────────────┘
+#            │ OK
+#       ▼
+#  ┌──────────────────────┐
+#  │   Executar tests     │  ──── ERROR ──► Notificar fallida ──► FI ❌
+#  │    (npm test)        │
+#  └─────────┬────────────┘
+#            │ OK
+#       ▼
+#     FI ✅
+#
+# Els 3 jobs (favorites, wishlist, history) s'executen en paral·lel.
+# Si qualsevol pas falla, el workflow s'atura automàticament.
+# =============================================================
+
 name: Tests
 
 on:
+  # S'executa en cada push o pull request a la branca principal
   push:
     branches: [main]
   pull_request:
@@ -11,8 +59,10 @@ jobs:
     name: Tests service-favorites
     runs-on: ubuntu-latest
     steps:
+      # Descarrega el codi del repositori a l'agent de CI
       - uses: actions/checkout@v4
 
+      # Configura la versió de Node.js i activa la caché de npm
       - name: Configurar Node.js
         uses: actions/setup-node@v4
         with:
@@ -20,22 +70,30 @@ jobs:
           cache: 'npm'
           cache-dependency-path: service-favorites/package-lock.json
 
+      # Instal·la totes les dependències del servei
       - name: Instal·lar dependències
         run: npm install
         working-directory: service-favorites
 
+      # Verifica que la sintaxi JavaScript és vàlida (node --check)
+      # Si hi ha errors de sintaxi, el workflow s'atura aquí
       - name: Verificar sintaxi (build)
         run: npm run build
         working-directory: service-favorites
 
+      # Analitza el codi amb ESLint per detectar problemes de qualitat
+      # Si hi ha errors de lint, el workflow s'atura aquí
       - name: Comprovar qualitat del codi (lint)
         run: npm run lint
         working-directory: service-favorites
 
+      # Executa els tests automàtics amb Jest
+      # Si algun test falla, el workflow s'atura aquí
       - name: Executar tests
         run: npm test
         working-directory: service-favorites
 
+      # S'executa NOMÉS si algun pas anterior ha fallat
       - name: Notificar fallida
         if: failure()
         run: echo "❌ El workflow ha fallat a service-favorites. Revisa els errors anteriors."
@@ -44,8 +102,10 @@ jobs:
     name: Tests service-wishlist
     runs-on: ubuntu-latest
     steps:
+      # Descarrega el codi del repositori a l'agent de CI
       - uses: actions/checkout@v4
 
+      # Configura la versió de Node.js i activa la caché de npm
       - name: Configurar Node.js
         uses: actions/setup-node@v4
         with:
@@ -53,22 +113,27 @@ jobs:
           cache: 'npm'
           cache-dependency-path: service-wishlist/package-lock.json
 
+      # Instal·la totes les dependències del servei
       - name: Instal·lar dependències
         run: npm install
         working-directory: service-wishlist
 
+      # Verifica que la sintaxi JavaScript és vàlida (node --check)
       - name: Verificar sintaxi (build)
         run: npm run build
         working-directory: service-wishlist
 
+      # Analitza el codi amb ESLint per detectar problemes de qualitat
       - name: Comprovar qualitat del codi (lint)
         run: npm run lint
         working-directory: service-wishlist
 
+      # Executa els tests automàtics amb Jest
       - name: Executar tests
         run: npm test
         working-directory: service-wishlist
 
+      # S'executa NOMÉS si algun pas anterior ha fallat
       - name: Notificar fallida
         if: failure()
         run: echo "❌ El workflow ha fallat a service-wishlist. Revisa els errors anteriors."
@@ -77,8 +142,10 @@ jobs:
     name: Tests service-history
     runs-on: ubuntu-latest
     steps:
+      # Descarrega el codi del repositori a l'agent de CI
       - uses: actions/checkout@v4
 
+      # Configura la versió de Node.js i activa la caché de npm
       - name: Configurar Node.js
         uses: actions/setup-node@v4
         with:
@@ -86,22 +153,27 @@ jobs:
           cache: 'npm'
           cache-dependency-path: service-history/package-lock.json
 
+      # Instal·la totes les dependències del servei
       - name: Instal·lar dependències
         run: npm install
         working-directory: service-history
 
+      # Verifica que la sintaxi JavaScript és vàlida (node --check)
       - name: Verificar sintaxi (build)
         run: npm run build
         working-directory: service-history
 
+      # Analitza el codi amb ESLint per detectar problemes de qualitat
       - name: Comprovar qualitat del codi (lint)
         run: npm run lint
         working-directory: service-history
 
+      # Executa els tests automàtics amb Jest
       - name: Executar tests
         run: npm test
         working-directory: service-history
 
+      # S'executa NOMÉS si algun pas anterior ha fallat
       - name: Notificar fallida
         if: failure()
         run: echo "❌ El workflow ha fallat a service-history. Revisa els errors anteriors."
