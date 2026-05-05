@@ -1,0 +1,71 @@
+name: Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test-favorites:
+    name: Tests service-favorites
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: service-favorites/package-lock.json
+
+      - name: Instal·lar dependències
+        run: npm install
+        working-directory: service-favorites
+
+      - name: Executar tests
+        run: npm test
+        working-directory: service-favorites
+
+  test-wishlist:
+    name: Tests service-wishlist
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: service-wishlist/package-lock.json
+
+      - name: Instal·lar dependències
+        run: npm install
+        working-directory: service-wishlist
+
+      - name: Executar tests
+        run: npm test
+        working-directory: service-wishlist
+
+  test-history:
+    name: Tests service-history
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: service-history/package-lock.json
+
+      - name: Instal·lar dependències
+        run: npm install
+        working-directory: service-history
+
+      - name: Executar tests
+        run: npm test
+        working-directory: service-history
