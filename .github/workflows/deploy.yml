@@ -1,0 +1,80 @@
+# =============================================================
+# WORKFLOW DE CD - Desplegament automàtic a Vercel
+# =============================================================
+# S'executa automàticament NOMÉS si el workflow "Tests" ha
+# completat amb èxit a la branca main.
+#
+# Flux:
+#
+#  Workflow "Tests" completat amb èxit a main
+#       │
+#       ▼
+#  ┌──────────────────────────────────┐
+#  │  Checkout del codi               │
+#  └─────────────┬────────────────────┘
+#                │
+#       ▼
+#  ┌──────────────────────────────────┐
+#  │  Deploy service-wishlist         │ ──── ERROR ──► FI ❌
+#  │  (Vercel)                        │
+#  └─────────────┬────────────────────┘
+#                │ OK
+#       ▼
+#  ┌──────────────────────────────────┐
+#  │  Deploy service-history          │ ──── ERROR ──► FI ❌
+#  │  (Vercel)                        │
+#  └─────────────┬────────────────────┘
+#                │ OK
+#       ▼
+#     FI ✅ (serveis desplegats a producció)
+#
+# Secrets necessaris a GitHub (Settings > Secrets > Actions):
+#   - VERCEL_TOKEN              → token personal de Vercel
+#   - VERCEL_ORG_ID             → ID de l'organització/compte de Vercel
+#   - VERCEL_PROJECT_ID_WISHLIST → ID del projecte service-wishlist
+#   - VERCEL_PROJECT_ID_HISTORY  → ID del projecte service-history
+# =============================================================
+
+name: Deploy a Vercel
+
+on:
+  # Es dispara quan el workflow "Tests" acaba a la branca main
+  workflow_run:
+    workflows: ["Tests"]
+    types: [completed]
+    branches: [main]
+
+jobs:
+  deploy:
+    name: Desplegament a Vercel
+    runs-on: ubuntu-latest
+
+    # Condició clau: només s'executa si els tests han passat correctament
+    if: github.event.workflow_run.conclusion == 'success'
+
+    steps:
+      # Descarrega el codi del repositori
+      - uses: actions/checkout@v4
+
+      # Configura Node.js per poder usar el CLI de Vercel
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # Desplega service-wishlist a Vercel en mode producció
+      # Utilitza els secrets configurats al repositori de GitHub
+      - name: Deploy service-wishlist a Vercel
+        run: npx vercel --token=${{ secrets.VERCEL_TOKEN }} --prod --yes
+        working-directory: service-wishlist
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID_WISHLIST }}
+
+      # Desplega service-history a Vercel en mode producció
+      - name: Deploy service-history a Vercel
+        run: npx vercel --token=${{ secrets.VERCEL_TOKEN }} --prod --yes
+        working-directory: service-history
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID_HISTORY }}
