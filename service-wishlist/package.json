@@ -7,7 +7,7 @@
     "start": "node server.js",
     "dev": "nodemon server.js",
     "build": "node --check server.js",
-    "lint": "eslint .",
+    "lint": "eslint . --max-warnings 0",
     "test": "jest --forceExit"
   },
   "dependencies": {
