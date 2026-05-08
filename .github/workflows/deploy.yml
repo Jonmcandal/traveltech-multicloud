@@ -56,27 +56,23 @@ jobs:
       # Descarrega el codi del repositori
       - uses: actions/checkout@v4
 
-      # Configura Node.js per poder usar el CLI de Vercel
-      - name: Configurar Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-
       # Desplega service-wishlist a Vercel en mode producció
-      # Utilitza els secrets configurats al repositori de GitHub
+      # Utilitza l'acció oficial de Vercel per gestionar l'autenticació
       - name: Deploy service-wishlist a Vercel
-        run: npx vercel --prod --yes
-        working-directory: service-wishlist
-        env:
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID_WISHLIST }}
+        uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID_WISHLIST }}
+          working-directory: ./service-wishlist
+          vercel-args: '--prod'
 
       # Desplega service-history a Vercel en mode producció
       - name: Deploy service-history a Vercel
-        run: npx vercel --prod --yes
-        working-directory: service-history
-        env:
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID_HISTORY }}
+        uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID_HISTORY }}
+          working-directory: ./service-history
+          vercel-args: '--prod'
