@@ -65,7 +65,7 @@ jobs:
       # Desplega service-wishlist a Vercel en mode producció
       # Utilitza els secrets configurats al repositori de GitHub
       - name: Deploy service-wishlist a Vercel
-        run: npx vercel --token $VERCEL_TOKEN --prod --yes
+        run: npx vercel --prod --yes
         working-directory: service-wishlist
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
@@ -74,7 +74,7 @@ jobs:
 
       # Desplega service-history a Vercel en mode producció
       - name: Deploy service-history a Vercel
-        run: npx vercel --token $VERCEL_TOKEN --prod --yes
+        run: npx vercel --prod --yes
         working-directory: service-history
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
