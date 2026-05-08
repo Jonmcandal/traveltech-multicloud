@@ -60,7 +60,7 @@ app.delete('/favorites/:code', (req, res) => {
 
 // Health check
 app.get('/health', (req, res) => {
-  res.json({ status: 'ok', service: 'favorites' });
+  res.json({ status: 'ok', service: 'favorites', version: '1.0.0' });
 });
 
 // Version info
